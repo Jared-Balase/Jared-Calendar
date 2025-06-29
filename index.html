@@ -3,21 +3,77 @@
 <head>
   <title>Jared Calendar</title>
   <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 2rem;
+    padding: 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h1, h2 {
+    color: #333;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  input[type="date"], button {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    padding: 0.6rem;
+    margin: 1rem auto;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  p, ul {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0 1rem;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+  }
+
+  @media (max-width: 600px) {
     body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
+      margin: 1rem;
     }
-    h1, h2 {
-      color: #333;
+
+    h1 {
+      font-size: 1.4rem;
     }
-    ul {
-      line-height: 1.6;
+
+    h2 {
+      font-size: 1.2rem;
     }
-    #output {
-      transition: font-size 24px ease;
+
+    input[type="date"], button {
+      font-size: 0.95rem;
+      padding: 0.5rem;
     }
-    .large { font-size: 24px; }
-  </style>
+
+    p, ul {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
 </head>
 <body>
   <h1>Gregorian to Jared Calendar Converter</h1>
