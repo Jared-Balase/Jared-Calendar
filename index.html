@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jared 28-Days Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    ul {
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jared 28-Days Calendar Converter</h1>
+  <input id="gregorian-date" type="date" value="2025-06-29">
+  <button onclick="calculate28DayCalendar()">Calculate</button>
+
+  <p id="gregorian-date-output"></p>
+  <p id="28-day-calendar-output"></p>
+
+  <h2>Personality</h2>
+  <div id="Number-output"></div>
+
+  <script>
+    function calculate28DayCalendar() {
+      const Numbers = {
+        1: "Leadership, independence, and new beginnings",
+        2: "Balance, harmony, sensitivity, and partnership",
+        3: "Creativity, joy, communication, and self-expression",
+        4: "Stability, structure, discipline, and hard work",
+        5: "Change, freedom, adventure, and dynamic energy",
+        6: "Nurturing, responsibility, care, and community",
+        7: "Wisdom, spirituality, introspection, and understanding",
+        8: "Power, ambition, success, and material wealth",
+        9: "Completion, compassion, humanitarianism, and letting go",
+        11: "Spiritual insight, vision, inspiration, and enlightenment",
+        22: "Master builder, large-scale success, and leadership with service"
+      };
+
+      const reduceToSingleDigit = (num) => {
+        while (num > 9 && num !== 11 && num !== 22) {
+          num = num.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+        }
+        return num;
+      };
+
+      const getNumber = (num) => {
+        return Numbers[num] || "No specific interpretation";
+      };
+
+      const gregorianDate = new Date(document.getElementById("gregorian-date").value);
+      const gregorianYear = gregorianDate.getFullYear();
+      const gregorianMonth = gregorianDate.getMonth(); // 0-based
+      const gregorianDay = gregorianDate.getDate();
+
+      // Jared calendar logic
+      const startOfYear = new Date(gregorianYear, 0, 1);
+      const daysSinceStartOfYear = Math.floor((gregorianDate - startOfYear) / (24 * 60 * 60 * 1000));
+
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Sol"];
+      const monthIndex = Math.floor(daysSinceStartOfYear / 28);
+      const dayInMonth = (daysSinceStartOfYear % 28) + 1;
+
+      const jaredMonthNum = monthIndex + 1; // 1-based
+      const jaredMonthName = monthNames[monthIndex];
+      const jaredDay = dayInMonth;
+      const jaredYear = gregorianYear;
+
+      document.getElementById("gregorian-date-output").innerHTML =
+        `Gregorian Date: ${getMonthName(gregorianMonth)} ${gregorianDay}, ${gregorianYear}`;
+      document.getElementById("28-day-calendar-output").innerHTML =
+        `Jared Calendar: ${jaredMonthName} ${jaredDay}, ${jaredYear}`;
+
+      // --- Number Calculations ---
+      const usedNumbers = new Set();
+
+      const dayReduced = reduceToSingleDigit(jaredDay);
+      const dayLastDigit = jaredDay % 10;
+      const monthDayReduced = reduceToSingleDigit(jaredMonthNum + jaredDay);
+
+      const yearDigits = jaredYear.toString().split('').map(Number);
+      const yearSum = yearDigits.reduce((a, b) => a + b, 0);
+      const yearReduced = reduceToSingleDigit(yearSum);
+      const yearLastDigit = jaredYear % 10;
+
+      const totalReduced = reduceToSingleDigit(jaredMonthNum + jaredDay + yearReduced);
+
+      // Collect only unique Number digits used
+      usedNumbers.add(reduceToSingleDigit(jaredMonthNum));
+      usedNumbers.add(dayReduced);
+      usedNumbers.add(dayLastDigit);
+      usedNumbers.add(monthDayReduced);
+      usedNumbers.add(yearReduced);
+      usedNumbers.add(yearLastDigit);
+      usedNumbers.add(totalReduced);
+
+      const meanings = Array.from(usedNumbers).sort((a, b) => a - b).map(num =>
+        `<li><strong>${num}:</strong> ${getNumber(num)}</li>`
+      );
+
+      document.getElementById("Number-output").innerHTML = `
+        <ul>${meanings.join('')}</ul>
+      `;
+    }
+
+    function getMonthName(monthIndex) {
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+      return monthNames[monthIndex];
+    }
+  </script>
+</body>
+  </html>
