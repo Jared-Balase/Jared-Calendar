@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Jared Calendar</title>
+  <title>Jared 28-Days Calendar</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,20 +13,44 @@
     ul {
       line-height: 1.6;
     }
+    #output {
+      transition: font-size 0.3s ease;
+    }
+    .small { font-size: 14px; }
+    .medium { font-size: 18px; }
+    .large { font-size: 24px; }
   </style>
 </head>
 <body>
-  <h1>Gregorian to Jared Calendar Converter</h1>
+  <h1>Jared 28-Days Calendar Converter</h1>
+
+  <label for="gregorian-date">Select a Gregorian Date:</label>
   <input id="gregorian-date" type="date" value="2025-06-29">
+
+  <label for="size-selector">Font Size:</label>
+  <select id="size-selector" onchange="changeFontSize()">
+    <option value="medium" selected>Medium</option>
+    <option value="small">Small</option>
+    <option value="large">Large</option>
+  </select>
+
   <button onclick="calculate28DayCalendar()">Calculate</button>
 
-  <p id="gregorian-date-output"></p>
-  <p id="28-day-calendar-output"></p>
+  <div id="output" class="medium">
+    <p id="gregorian-date-output"></p>
+    <p id="28-day-calendar-output"></p>
 
-  <h2>Personality</h2>
-  <div id="Number-output"></div>
+    <h2>Personality</h2>
+    <div id="Number-output"></div>
+  </div>
 
   <script>
+    function changeFontSize() {
+      const selectedSize = document.getElementById("size-selector").value;
+      const output = document.getElementById("output");
+      output.className = selectedSize;
+    }
+
     function calculate28DayCalendar() {
       const Numbers = {
         1: "Leadership, independence, and new beginnings",
@@ -55,10 +79,9 @@
 
       const gregorianDate = new Date(document.getElementById("gregorian-date").value);
       const gregorianYear = gregorianDate.getFullYear();
-      const gregorianMonth = gregorianDate.getMonth(); // 0-based
+      const gregorianMonth = gregorianDate.getMonth();
       const gregorianDay = gregorianDate.getDate();
 
-      // Jared calendar logic
       const startOfYear = new Date(gregorianYear, 0, 1);
       const daysSinceStartOfYear = Math.floor((gregorianDate - startOfYear) / (24 * 60 * 60 * 1000));
 
@@ -66,7 +89,7 @@
       const monthIndex = Math.floor(daysSinceStartOfYear / 28);
       const dayInMonth = (daysSinceStartOfYear % 28) + 1;
 
-      const jaredMonthNum = monthIndex + 1; // 1-based
+      const jaredMonthNum = monthIndex + 1;
       const jaredMonthName = monthNames[monthIndex];
       const jaredDay = dayInMonth;
       const jaredYear = gregorianYear;
@@ -76,7 +99,6 @@
       document.getElementById("28-day-calendar-output").innerHTML =
         `Jared Calendar: ${jaredMonthName} ${jaredDay}, ${jaredYear}`;
 
-      // --- Number Calculations ---
       const usedNumbers = new Set();
 
       const dayReduced = reduceToSingleDigit(jaredDay);
@@ -90,7 +112,6 @@
 
       const totalReduced = reduceToSingleDigit(jaredMonthNum + jaredDay + yearReduced);
 
-      // Collect only unique Number digits used
       usedNumbers.add(reduceToSingleDigit(jaredMonthNum));
       usedNumbers.add(dayReduced);
       usedNumbers.add(dayLastDigit);
@@ -103,9 +124,7 @@
         `<li><strong>${num}:</strong> ${getNumber(num)}</li>`
       );
 
-      document.getElementById("Number-output").innerHTML = `
-        <ul>${meanings.join('')}</ul>
-      `;
+      document.getElementById("Number-output").innerHTML = `<ul>${meanings.join('')}</ul>`;
     }
 
     function getMonthName(monthIndex) {
@@ -115,4 +134,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
