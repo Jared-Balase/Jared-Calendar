@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Jared 28-Days Calendar</title>
+  <title>Jared Calendar</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,23 +16,14 @@
     #output {
       transition: font-size 0.3s ease;
     }
-    .small { font-size: 14px; }
-    .medium { font-size: 18px; }
     .large { font-size: 24px; }
   </style>
 </head>
 <body>
-  <h1>Jared 28-Days Calendar Converter</h1>
+  <h1>Gregorian to Jared Calendar Converter</h1>
 
   <label for="gregorian-date">Select a Gregorian Date:</label>
   <input id="gregorian-date" type="date" value="2025-06-29">
-
-  <label for="size-selector">Font Size:</label>
-  <select id="size-selector" onchange="changeFontSize()">
-    <option value="medium" selected>Medium</option>
-    <option value="small">Small</option>
-    <option value="large">Large</option>
-  </select>
 
   <button onclick="calculate28DayCalendar()">Calculate</button>
 
